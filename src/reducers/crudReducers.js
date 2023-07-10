@@ -1,4 +1,5 @@
 import { types } from "../actions/crudActions"
+import { createSlice } from '@reduxjs/toolkit';
 
 export const initialDb = [
     {
@@ -54,21 +55,41 @@ export const initialState = {
     dataToEdit: null
 }
 
+
 export function reducer(state, action) {
-    switch(action.type) {
+    switch (action.type) {
         case types.create:
-            return {...state, db: [...state.db, action.payload]}
+            return { ...state, db: [...state.db, action.payload] }
         case types.update:
-            return {...state, db: state.db.map(element => element.id === action.payload.id ? action.payload : element)}
+            return { ...state, db: state.db.map(element => element.id === action.payload.id ? action.payload : element) }
         case types.delete:
-            const isDelete = window.confirm("estas seguro de eliminarlo?") 
-                if(isDelete) {
-                    return {...state, db: state.db.filter(element => element.id !== action.payload)}
-                } else {
-                    return state;
-                }
+            const isDelete = window.confirm("estas seguro de eliminarlo?")
+            if (isDelete) {
+                return { ...state, db: state.db.filter(element => element.id !== action.payload) }
+            } else {
+                return state;
+            }
 
         default:
             return state;
     }
 }
+
+
+
+export const mainSlice = createSlice({
+    name: 'main',
+    initialState,
+    reducers: {
+        create(state, action) {
+            state.db.push(action.payload)
+        }
+    }
+})
+
+export const { create } = mainSlice.actions;
+
+
+export default mainSlice.reducer;
+
+

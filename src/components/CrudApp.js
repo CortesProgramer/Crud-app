@@ -13,7 +13,9 @@ export const CrudApp = () => {
 
     const createData = (data) => {
         data.id = Date.now();
-        dispatch(create(data))
+        // dispatch(create(data))
+
+        dispatch({type: "USER_FETCH_REQUESTED", payload: data})
     }
 
     const updateData = (data) => {

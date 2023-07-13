@@ -6,13 +6,22 @@ import reportWebVitals from './reportWebVitals';
 import reducer from './reducers/crudReducers'
 import App from './App';
 import './index.css';
+import saga from './services/saga'
+
+import createSagaMiddleware from 'redux-saga'
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware()
 
 const store = configureStore({
   reducer: {
     main: reducer
-  }
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
 });
 
+
+sagaMiddleware.run(saga)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
